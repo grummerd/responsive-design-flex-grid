@@ -2,31 +2,33 @@ var FlexGrid = (function() {
 	var objResponsiveDesignBoundaries = {"1": "340", "2": "475", "3": "644", "4": "824"};
 	var selector=".rwd-example", debug_on=false;
 	
-	var setBoundaries = function(boundaries) { //Public
-		if (typeof(boundaries)!="undefined") {
+	var setBoundaries = function(boundaries) {
+		if (typeof(boundaries)=="string") {
+			objResponsiveDesignBoundaries = JSON.parse(boundaries);
+		} else if (typeof(boundaries)=="object") {
 			objResponsiveDesignBoundaries = boundaries;
 		}
 	}
 	
-	var getBoundaries = function() { //Private
+	var getBoundaries = function() {
 		return objResponsiveDesignBoundaries;
 	}
 	
-	var setContainer = function(container) { //Public
+	var setContainer = function(container) {
 		if (typeof(container)!="undefined") {
 			selector = container;
 		}
 	}
 
-	var getContainer = function() { //Private
+	var getContainer = function() {
 		return selector;
 	}
 
-	var toggleDebug = function() { //Public
+	var toggleDebug = function() {
 		debug_on = !debug_on;
 	}
 
-	var arrangeItemsIntoColumns = function() { //Private
+	var arrangeItemsIntoColumns = function() {
 		var objWidth=getBoundaries(), strContainerSelector=getContainer();		
 		var $selectorItems, strRemoveClass = "ui-block-a ui-block-b ui-block-c ui-block-d ui-block-";
 		var lngColumn=0, strColumnWidth="100%";
@@ -137,6 +139,22 @@ var FlexGrid = (function() {
 	}
 
 	var init = function() {
+		strBoundaries = $('meta[property="flex-grid\\:boundaries"]');
+		if (typeof(strBoundaries)!="undefined") {
+			setBoundaries( strBoundaries );
+		}
+		strSelector = $('meta[property="flex-grid\\:selector"]');
+		if (typeof(strSelector)!="undefined") {
+			setContainer(strSelector);
+		}
+		
+		strDebug = $('meta[property="flex-grid\\:debug"]');
+		if (typeof(strDebug)=="string") {
+			if (strDebug=="true") {
+				toggleDebug();
+			}
+		}
+		
 		arrangeItemsIntoColumns();
 		$(window).on('resize orientationChange', function(e) {
 			if (debug_on) { console.log("RESIZE START"); }
@@ -146,9 +164,10 @@ var FlexGrid = (function() {
 	}
 	
 	return {
-		setBoundaries: setBoundaries,
-		setContainer: setContainer,
-		toggleDebug: toggleDebug,
 		init: init
 	};
 })();
+
+$(document).ready(function() {
+	FlexGrid.init();
+}
