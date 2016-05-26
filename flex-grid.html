@@ -9,7 +9,15 @@
 		<meta property="flex-grid:selector" content=".rwd-example" />
 		<meta property="flex-grid:debug" content="false" />
 		<script src="/js/jquery.js"></script>
-		<script src="/js/flex-grid.js" async></script>
+        <script>
+			$(document).ready(function() {
+				(function(d) {
+				var po = d.createElement('script'); po.type = 'text/javascript'; po.async = true;
+				po.src = '/js/flex-grid.js';
+				var s = d.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+				})(document);
+			});
+		</script>
 	</head>
 	<body>
 		<div class="rwd-example">
