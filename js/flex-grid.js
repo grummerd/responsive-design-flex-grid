@@ -139,22 +139,23 @@ var FlexGrid = (function() {
 	}
 
 	var init = function() {
-		strBoundaries = $('meta[property="flex-grid\\:boundaries"]');
+		
+		strBoundaries = $('meta[property="flex-grid\\:boundaries"]').attr("content");
 		if (typeof(strBoundaries)!="undefined") {
 			setBoundaries( strBoundaries );
 		}
-		strSelector = $('meta[property="flex-grid\\:selector"]');
+		strSelector = $('meta[property="flex-grid\\:selector"]').attr("content");
 		if (typeof(strSelector)!="undefined") {
 			setContainer(strSelector);
 		}
 		
-		strDebug = $('meta[property="flex-grid\\:debug"]');
+		strDebug = $('meta[property="flex-grid\\:debug"]').attr("content");
 		if (typeof(strDebug)=="string") {
 			if (strDebug=="true") {
 				toggleDebug();
 			}
 		}
-		
+		if (debug_on) { console.log("debug setting html property(", strDebug, ") internal property(", debug_on, ")"); }
 		arrangeItemsIntoColumns();
 		$(window).on('resize orientationChange', function(e) {
 			if (debug_on) { console.log("RESIZE START"); }
@@ -167,7 +168,4 @@ var FlexGrid = (function() {
 		init: init
 	};
 })();
-
-$(document).ready(function() {
-	FlexGrid.init();
-});
+FlexGrid.init();
