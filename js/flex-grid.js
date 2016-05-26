@@ -170,4 +170,4 @@ var FlexGrid = (function() {
 
 $(document).ready(function() {
 	FlexGrid.init();
-}
+});
