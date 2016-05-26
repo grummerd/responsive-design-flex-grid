@@ -1,4 +1,4 @@
-# responsive-design-flex-grid
+responsive-design-flex-grid
 ================================
 
 Layout arbitrary number of items in a responsive design flex grid. When a viewport resize occurs, # of items / row will rearrange. Maximum 4 items / column
