@@ -9,16 +9,6 @@
 	box-sizing: border-box;
 }
 
-.rwd-example {
-	display: block;
-	margin: 0;
-	text-align: center;
-	width: 100%;
-	font-size: 0.75em;
-	margin: 0;
-	padding: 0 1.5em;
-}
-
 div[class*="ui-block"] {
 	/* background: #ECF0F1; */
 	display: inline-block;
@@ -31,23 +21,6 @@ div[class*="ui-block"] {
 /* Used to make removing dummy/filler nodes easily */
 .dummydeleteme { border-color: pink; background-color: white; }
 
-/* Basic styles */
-.rwd-example .ui-body {
-	text-align: left;
-	border-color: #ddd;
-}
-
-.rwd-example div div div { text-align: center; }
-
-.rwd-example p {
-	color: #777;
-	line-height: 140%;
-}
-
-.rwd-example img {
-	width: 135px;
-}
-
 /* Stack all blocks to start */
 .rwd-example .ui-block-a,
 .rwd-example .ui-block-b,
@@ -55,49 +28,4 @@ div[class*="ui-block"] {
 .rwd-example .ui-block-d,
 .rwd-example .ui-block-e {
 	width: 100%;
-}
-
-/* Collapsing borders */
-.rwd-example > div + div .ui-body {
-	border-top-width: 0;
-}
-
-/* 1 item / row */
-@media all and (max-width: 24.5em ) {
-	.rwd-example > div + div .ui-body {
-		border-top-width: 1px;
-	}
-	.rwd-example > div:first-child .ui-body {
-		border-bottom-width: 0;
-	}
-	.rwd-example > div:last-child .ui-body {
-		border-left-width: 0;
-	}
-}
-
-/* 2 items / row */
-@media all and (min-width: 25em ) and (max-width: 34.5em ) {
-	.rwd-example {
-		overflow: hidden; /* Use this or a "clearfix" to give the container height */
-	}
-	.rwd-example > div + div .ui-body {
-		border-top-width: 1px;
-	}
-	.rwd-example > div:first-child .ui-body {
-		border-bottom-width: 0;
-	}
-	.rwd-example > div:last-child .ui-body {
-		border-left-width: 0;
-	}
-}
-
-
-/* 3 items / row */
-@media all and (min-width: 35em ) and (max-width: 57em) {
-	.rwd-example > div:first-child .ui-body {
-		border-bottom-width: 1px;
-	}
-	.rwd-example > div + div .ui-body {
-		border-left-width: 0;
-	}
 }
