@@ -125,19 +125,82 @@ var FlexGrid = (function() {
 			$selectorItems.removeClass(strRemoveClass).addClass("ui-block-b");
 			$selectorItems = $( strContainerSelector ).children(":nth-child(" + lngColumn + "n + 3)");
 			$selectorItems.removeClass(strRemoveClass).addClass("ui-block-c");
+			var tmpStyleSheet = getStyleSheet();
+			tmpRule = getContainer()+" > div:first-child .ui-body { border-bottom-width: 1px; }";
+			tmpStyleSheet.insertRule(tmpRule, tmpStyleSheet.cssRules.length);
+			tmpRule = getContainer()+" > div + div .ui-body { border-left-width: 0; }";
+			tmpStyleSheet.insertRule(tmpRule, tmpStyleSheet.cssRules.length);
 		} else if (lngColumn==2){
 			if (debug_on) { console.log("column # ", lngColumn, "Should be 2" ); }
 			$selectorItems = $( strContainerSelector ).children(":nth-child(" + lngColumn + "n + 1)");
 			$selectorItems.removeClass(strRemoveClass).addClass("ui-block-a");
 			$selectorItems = $( strContainerSelector ).children(":nth-child(" + lngColumn + "n + 2)");
 			$selectorItems.removeClass(strRemoveClass).addClass("ui-block-b");
+			var tmpStyleSheet = getStyleSheet();
+			tmpRule = getContainer()+" > div + div .ui-body { border-top-width: 1px; }";
+			tmpStyleSheet.insertRule(tmpRule, tmpStyleSheet.cssRules.length);
+			tmpRule = getContainer()+" > div:first-child .ui-body { border-bottom-width: 0; }";
+			tmpStyleSheet.insertRule(tmpRule, tmpStyleSheet.cssRules.length);
+			tmpRule = getContainer()+" > div:last-child .ui-body { border-left-width: 0; }";
+			tmpStyleSheet.insertRule(tmpRule, tmpStyleSheet.cssRules.length);
 		} else if (lngColumn==1){
 			if (debug_on) { console.log("column # ", lngColumn, "Should be 1" ); }
 			$selectorItems = $( strContainerSelector ).children(":nth-child(" + lngColumn + "n + 1)");
 			$selectorItems.removeClass(strRemoveClass).addClass("ui-block-a");
+			var tmpStyleSheet = getStyleSheet();
+			tmpRule = getContainer()+" > div + div .ui-body { border-top-width: 1px; }";
+			tmpStyleSheet.insertRule(tmpRule, tmpStyleSheet.cssRules.length);
+			tmpRule = getContainer()+" > div:first-child .ui-body { border-bottom-width: 0; }";
+			tmpStyleSheet.insertRule(tmpRule, tmpStyleSheet.cssRules.length);
+			tmpRule = getContainer()+" > div:last-child .ui-body { border-left-width: 0; }";
+			tmpStyleSheet.insertRule(tmpRule, tmpStyleSheet.cssRules.length);
 		}
 	}
-
+	
+	var getFileName = function(url) {
+		url = url.substring(0, (url.indexOf("#") == -1) ? url.length : url.indexOf("#"));
+		url = url.substring(0, (url.indexOf("?") == -1) ? url.length : url.indexOf("?"));
+		url = url.substring(url.lastIndexOf("/") + 1, url.length);
+		return url;
+	}
+	
+	var getStyleSheet = function(strFileName) {
+		var tmpStyleSheet, tmpFileName, retVal, lngFileCount = $(document)[0].styleSheets.length;;
+		if (typeof(strFileName)=="undefined") { strFileName = "flex-grid.css"; }
+		for(var i=0;i<lngFileCount;i++) {
+			tmpStyleSheet = $(document)[0].styleSheets[i];
+			tmpFileName = getFileName(tmpStyleSheet.href);
+			if (tmpFileName==strFileName) {
+				retVal = tmpStyleSheet;
+			}
+		}
+		return retVal;
+	}
+	
+	// Support arbitrary container div/section class
+	// http://stackoverflow.com/a/31660282
+	var loadStyleSheet = function(strFileName) {
+		var tmpRule, tmpStyleSheet = getStyleSheet(strFileName);
+		
+		//container div class naAdd css which uses 
+		tmpRule = getContainer()+" { display: block; margin: 0; text-align: center; width: 100%; font-size: 0.75em; margin: 0; padding: 0 1.5em; }";
+		tmpStyleSheet.insertRule(tmpRule, tmpStyleSheet.cssRules.length);
+		tmpRule = getContainer()+" .ui-body { text-align: left; border-color: #ddd; }";
+		tmpStyleSheet.insertRule(tmpRule, tmpStyleSheet.cssRules.length);
+		tmpRule = getContainer()+" div div div { text-align: center; }";
+		tmpStyleSheet.insertRule(tmpRule, tmpStyleSheet.cssRules.length);
+		tmpRule = getContainer()+" p { color: #777; line-height: 140%; }";
+		tmpStyleSheet.insertRule(tmpRule, tmpStyleSheet.cssRules.length);
+		tmpRule = getContainer()+" img { width: 135px; }";
+		tmpStyleSheet.insertRule(tmpRule, tmpStyleSheet.cssRules.length);
+		// Collapsing borders
+		tmpRule = getContainer()+" > div + div .ui-body { border-top-width: 0; }";
+		tmpStyleSheet.insertRule(tmpRule, tmpStyleSheet.cssRules.length);
+		
+		//pointless js method to refresh DOM
+		$(document)[0].offsetHeight;
+	}
+	
 	var init = function() {
 		
 		strBoundaries = $('meta[property="flex-grid\\:boundaries"]').attr("content");
@@ -157,9 +220,11 @@ var FlexGrid = (function() {
 		}
 		if (debug_on) { console.log("debug setting html property(", strDebug, ") internal property(", debug_on, ")"); }
 		arrangeItemsIntoColumns();
+		loadStyleSheet();
 		$(window).on('resize orientationChange', function(e) {
 			if (debug_on) { console.log("RESIZE START"); }
 			arrangeItemsIntoColumns(selector);
+			loadStyleSheet();
 			if (debug_on) { console.log("RESIZE END"); }
 		});
 	}
