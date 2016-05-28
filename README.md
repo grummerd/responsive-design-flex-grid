@@ -10,7 +10,7 @@ html meta properties
 
 The key is the number of items / row. The value, in pixels, is the viewport size boundary/threshold. Passing a boundry will trigger a change in # of items / row
 
-    {"1": "340", "2": "475", "3": "644", "4": "824"} 
+    {"2": "475", "3": "644", "4": "824"} 
 
 - `flex-grid-selector`
  
