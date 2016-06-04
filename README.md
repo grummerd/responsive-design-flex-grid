@@ -1,7 +1,7 @@
 responsive-design-flex-grid
 ================================
 
-Layout arbitrary number of items in a responsive design flex grid. When a viewport resize occurs, # of items / row will rearrange. Maximum 4 items / column. See flex-grid-many.html for an example of having many flex-grids / page  
+Layout arbitrary number of items in a responsive design flex grid. When a viewport resize occurs, # of items / row will rearrange. Maximum 6 items / column. Can have multiple flex-grids / page  
 
 html meta properties
 -----------------
@@ -14,15 +14,15 @@ html meta properties
 
 - `flex-grid:selector`
  
-    The container div/section containing items
+    The container div/section containing items. For how selectors work, familiarize yourself with javascript, jQuery, or css selectors. Simplest selectors are class `.mycontainerclass` or id `#mycontainer`. Recommend to keep it simple
 
 - `flex-grid:debug`
 
-    "true" will turn on `console.log` debug messages
+    (Optional) "true" will turn on `console.log` debug messages
 
 - `flex-grid:image-width`
 
-    Percentage of full size image width. Assumes all the images are the same size. Do not add the `%` symbol
+    (Optional) Percentage of full size image width. Default is 100. Assumes all the images are the same size. Do not add the `%` symbol
 
 Examples (boundaries)
 -----------
