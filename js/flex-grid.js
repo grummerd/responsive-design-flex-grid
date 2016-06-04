@@ -42,44 +42,55 @@ var FlexGrid = (function() {
 	}
 
 	var arrangeItemsIntoColumns = function(j) {
-		var objWidth=getBoundaries(j), strContainerSelector=getContainer(j);		
-		var $selectorItems, strRemoveClass = "ui-block-a ui-block-b ui-block-c ui-block-d ui-block-";
+		var objWidth=getBoundaries(j), strContainerSelector=getContainer(j);
+		var $selectorItems, strRemoveClass = "ui-block-a ui-block-b ui-block-c ui-block-d ui-block-e ui-block-f ui-block-";
 		var lngColumn=0, lngBarrierWidth, dblColumnWidthPercent=100, dblImageWidthPercent=getImageWidth(j);
-		var bolDebug=getDebug(j);
+		var bolDebug=getDebug(j), strFontSize;
 		//console.log("FlexGrid container[j]", j, "debug", bolDebug);
-		console.log("FlexGrid "+strContainerSelector+" dblImageWidthPercent[j]", j, "width", String(dblImageWidthPercent)+"%", dblImageWidthPercent);
+		//console.log("FlexGrid "+strContainerSelector+" dblImageWidthPercent[j]", j, "width", String(dblImageWidthPercent)+"%", dblImageWidthPercent);
 		// Item count. `> div` means div only first level children  
 		var $container_children_original = $(strContainerSelector+' > div');
 		if (bolDebug) { console.log("FlexGrid.arrangeItemsIntoColumns items count ", $container_children_original.length); }
 		
-		if (bolDebug) { console.log("FlexGrid.arrangeItemsIntoColumns columns vs width ", objWidth); }
-		if (bolDebug) { console.log("FlexGrid.arrangeItemsIntoColumns viewport width", $(window).width() ); }
+		if (bolDebug) { console.log("FlexGrid.arrangeItemsIntoColumns "+strContainerSelector+" columns vs width ", objWidth); }
+		if (bolDebug) { console.log("FlexGrid.arrangeItemsIntoColumns "+strContainerSelector+" viewport width", $(window).width() ); }
 		if (bolDebug) { console.log("FlexGrid.arrangeItemsIntoColumns viewport height", $(window).height() ); }
 
-		if ($(window).width() >= objWidth[4]) {
-			lngColumn = 4; dblColumnWidthPercent=24; dblImageWidthPercent = dblImageWidthPercent - 20;
-			if (bolDebug) { console.log("FlexGrid.arrangeItemsIntoColumns columns ", lngColumn); }
-			//Using $.find is sloppy
-			$container_children_original.find(".ui-body").css("font-size", "125%");
-			$(strContainerSelector+' > div[class|="ui-block"]').css("width", String(dblColumnWidthPercent)+"%");
-		} else if ($(window).width() < objWidth[4] && $(window).width() >= objWidth[3]) {
-			lngColumn = 3; dblColumnWidthPercent=32.95; dblImageWidthPercent = dblImageWidthPercent - 13;
-			if (bolDebug) { console.log("FlexGrid.arrangeItemsIntoColumns columns ", lngColumn); }
-			//$container_children_original.find(".ui-body").css("min-height", "18em");
-			$(strContainerSelector+' > div[class|="ui-block"]').css("width", String(dblColumnWidthPercent)+"%");
-		} else if ($(window).width() < objWidth[3] && $(window).width() >= objWidth[2]) {
-			lngColumn = 2; dblColumnWidthPercent=49.65; dblImageWidthPercent = dblImageWidthPercent - 10;
-			if (bolDebug) { console.log("FlexGrid.arrangeItemsIntoColumns columns ", lngColumn); }
-			$container_children_original.find(".ui-body").css("font-size", "1em");
-			//$container_children_original.find(".ui-body").css("min-height", "14em").css("font-size", "1em");
-			$(strContainerSelector+' > div[class|="ui-block"]').css("width", String(dblColumnWidthPercent)+"%");
-		} else if ( $(window).width() < objWidth[2] ) {
-			lngColumn = 1;
-			if (bolDebug) { console.log("FlexGrid.arrangeItemsIntoColumns columns ", lngColumn); }
-			$container_children_original.find(".ui-body").css("font-size", "1em");
-			//$container_children_original.find(".ui-body").css("min-height", "14em").css("font-size", "1em");
-			$(strContainerSelector+' > div[class|="ui-block"]').css("width", String(dblColumnWidthPercent)+"%");
+		if (typeof(objWidth[6])!="undefined" && $(window).width() >= objWidth[6]) {
+			//Only 6
+			lngColumn = 6; dblColumnWidthPercent=15; dblImageWidthPercent = dblImageWidthPercent - 28; strFontSize="145%";
+		} else if ( typeof(objWidth[6])!="undefined" && typeof(objWidth[5])!="undefined" && $(window).width() < objWidth[6] && $(window).width() >= objWidth[5]) {
+			//5 and 6
+			lngColumn = 5; dblColumnWidthPercent=19; dblImageWidthPercent = dblImageWidthPercent - 23; strFontSize="135%";
+		} else if ( typeof(objWidth[6])=="undefined" && typeof(objWidth[5])!="undefined" && $(window).width() >= objWidth[5]) {
+			//Only 5
+			lngColumn = 5; dblColumnWidthPercent=19; dblImageWidthPercent = dblImageWidthPercent - 23; strFontSize="135%";
+		} else if ( typeof(objWidth[5])!="undefined" && typeof(objWidth[4])!="undefined" && $(window).width() < objWidth[5] && $(window).width() >= objWidth[4]) {
+			//4 and 5
+			lngColumn = 4; dblColumnWidthPercent=24; dblImageWidthPercent = dblImageWidthPercent - 20; strFontSize="125%";
+		} else if ( typeof(objWidth[5])=="undefined" && typeof(objWidth[4])!="undefined" && $(window).width() >= objWidth[4]) {
+			//Only 4
+			lngColumn = 4; dblColumnWidthPercent=24; dblImageWidthPercent = dblImageWidthPercent - 20; strFontSize="125%";
+		} else if ( typeof(objWidth[4])!="undefined" && typeof(objWidth[3])!="undefined" && $(window).width() < objWidth[4] && $(window).width() >= objWidth[3]) {
+			//3 and 4
+			lngColumn = 3; dblColumnWidthPercent=32.95; dblImageWidthPercent = dblImageWidthPercent - 13; strFontSize="1em";
+		} else if ( typeof(objWidth[4])=="undefined" && typeof(objWidth[3])!="undefined" && $(window).width() >= objWidth[3]) {
+			//Only 3
+			lngColumn = 3; dblColumnWidthPercent=32.95; dblImageWidthPercent = dblImageWidthPercent - 13; strFontSize="1em";
+		} else if ( typeof(objWidth[3])!="undefined" && typeof(objWidth[2])!="undefined" && $(window).width() < objWidth[3] && $(window).width() >= objWidth[2]) {
+			//2 and 3
+			lngColumn = 2; dblColumnWidthPercent=49.65; dblImageWidthPercent = dblImageWidthPercent - 10; strFontSize="1em";
+		} else if ( typeof(objWidth[3])=="undefined" && typeof(objWidth[2])!="undefined" && $(window).width() >= objWidth[2]) {
+			//Only 2; 2 columns
+			lngColumn = 2; dblColumnWidthPercent=49.65; dblImageWidthPercent = dblImageWidthPercent - 10; strFontSize="1em";
+		} else if ( typeof(objWidth[3])=="undefined" && typeof(objWidth[2])!="undefined" && $(window).width() < objWidth[2]) {
+			//Only 2; 1 column
+			lngColumn = 1; strFontSize="1em";
 		}
+		if (bolDebug) { console.log("FlexGrid.arrangeItemsIntoColumns columns ", lngColumn); }
+		//Using $.find is sloppy
+		$container_children_original.find(".ui-body").css("font-size", strFontSize);
+		$(strContainerSelector+' > div[class|="ui-block"]').css("width", String(dblColumnWidthPercent)+"%");
 		
 		if (lngColumn > 0) {
 			//Remove dummy div(s)
@@ -145,7 +156,41 @@ var FlexGrid = (function() {
 		tmpStyleSheet.insertRule(tmpRule, tmpStyleSheet.cssRules.length);
 		
 		if (bolDebug) { console.log("FlexGrid.arrangeItemsIntoColumns container_children length ", $container_children.length); }
-		if (lngColumn==4){
+		if (lngColumn==6) {
+			if (bolDebug) { console.log("FlexGrid.arrangeItemsIntoColumns column # ", lngColumn, "Should be 6"); }
+			//$selectorItems = $container_children.find(":nth-child(" + lngColumn + "n + 1)");
+			$selectorItems = $(strContainerSelector+" > div:nth-of-type(" + lngColumn + "n + 1)");
+			$selectorItems.removeClass(strRemoveClass).addClass("ui-block-a");
+			//$selectorItems = $container_children.find(":nth-child(" + lngColumn + "n + 2)");
+			$selectorItems = $(strContainerSelector+" > div:nth-of-type(" + lngColumn + "n + 2)");
+			$selectorItems.removeClass(strRemoveClass).addClass("ui-block-b");
+			//$selectorItems = $container_children.find(":nth-child(" + lngColumn + "n + 3)");
+			$selectorItems = $(strContainerSelector+" > div:nth-of-type(" + lngColumn + "n + 3)");
+			$selectorItems.removeClass(strRemoveClass).addClass("ui-block-c");
+			//$selectorItems = $container_children.find(":nth-child(" + lngColumn + "n + 4)");
+			$selectorItems = $(strContainerSelector+" > div:nth-of-type(" + lngColumn + "n + 4)");
+			$selectorItems.removeClass(strRemoveClass).addClass("ui-block-d");
+			$selectorItems = $(strContainerSelector+" > div:nth-of-type(" + lngColumn + "n + 5)");
+			$selectorItems.removeClass(strRemoveClass).addClass("ui-block-e");
+			$selectorItems = $(strContainerSelector+" > div:nth-of-type(" + lngColumn + "n + 6)");
+			$selectorItems.removeClass(strRemoveClass).addClass("ui-block-f");
+		} else if (lngColumn==5) {
+			if (bolDebug) { console.log("FlexGrid.arrangeItemsIntoColumns column # ", lngColumn, "Should be 5"); }
+			//$selectorItems = $container_children.find(":nth-child(" + lngColumn + "n + 1)");
+			$selectorItems = $(strContainerSelector+" > div:nth-of-type(" + lngColumn + "n + 1)");
+			$selectorItems.removeClass(strRemoveClass).addClass("ui-block-a");
+			//$selectorItems = $container_children.find(":nth-child(" + lngColumn + "n + 2)");
+			$selectorItems = $(strContainerSelector+" > div:nth-of-type(" + lngColumn + "n + 2)");
+			$selectorItems.removeClass(strRemoveClass).addClass("ui-block-b");
+			//$selectorItems = $container_children.find(":nth-child(" + lngColumn + "n + 3)");
+			$selectorItems = $(strContainerSelector+" > div:nth-of-type(" + lngColumn + "n + 3)");
+			$selectorItems.removeClass(strRemoveClass).addClass("ui-block-c");
+			//$selectorItems = $container_children.find(":nth-child(" + lngColumn + "n + 4)");
+			$selectorItems = $(strContainerSelector+" > div:nth-of-type(" + lngColumn + "n + 4)");
+			$selectorItems.removeClass(strRemoveClass).addClass("ui-block-d");
+			$selectorItems = $(strContainerSelector+" > div:nth-of-type(" + lngColumn + "n + 5)");
+			$selectorItems.removeClass(strRemoveClass).addClass("ui-block-e");
+		} else if (lngColumn==4){
 			if (bolDebug) { console.log("FlexGrid.arrangeItemsIntoColumns column # ", lngColumn, "Should be 4"); }
 			//$selectorItems = $container_children.find(":nth-child(" + lngColumn + "n + 1)");
 			$selectorItems = $(strContainerSelector+" > div:nth-of-type(" + lngColumn + "n + 1)");
